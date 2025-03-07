@@ -182,6 +182,8 @@ pub enum InfluxError {
     Forbidden(String),
     #[error("Unknown error: {0}")]
     Unknown(String),
+    #[error("URL parse error: {0}")]
+    UrlParse(#[from] url::ParseError),
 }
 
 #[derive(Clone)]

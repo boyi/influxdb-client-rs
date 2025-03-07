@@ -30,7 +30,7 @@ impl Client {
     /// use influxdb_client::Client;
     /// let client = Client::new("https://example.com:8086", "generated_token").unwrap();
     /// ```
-    pub fn new(host: impl AsRef<str>, token: impl Into<String>) -> Result<Client, url::ParseError> {
+    pub fn new(host: impl AsRef<str>, token: impl Into<String>) -> Result<Client, InfluxError> {
         let host = reqwest::Url::parse(host.as_ref())?;
 
         Ok(Client {
@@ -38,8 +38,7 @@ impl Client {
             token: token.into(),
             client: reqwest::ClientBuilder::new()
                 .timeout(std::time::Duration::from_secs(3))
-                .build()
-                .unwrap(),
+                .build()?,
             bucket: None,
             org: None,
             org_id: None,
